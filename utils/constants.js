@@ -1,0 +1,1 @@
+exports.EXAMPLE = './example'
