@@ -28,8 +28,8 @@ const SeparatorStyle = styled(Typography)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ComingSoon({day}) {
-  const countdown = useCountdown(new Date(day));
+export default function ComingSoon({day, tokenId}) {
+  const countdown = useCountdown(new Date(day), tokenId);
 
   return (
     <Container>

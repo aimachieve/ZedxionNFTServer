@@ -3,17 +3,20 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Stack, Link } from '@mui/material';
+import { formatBigNumber } from 'utils/formatNumber';
 // Contract
 import { useNFTContract } from 'hooks/useContract'
 
 export default function Card_Research({ tokenId }) {
   console.log("tokenId =>", tokenId)
   const [data, setData] = useState(null)
+  const [NFT, setNFT] = useState(null)
   const NFTContract = useNFTContract(process.env.REACT_APP_NFT_CONTRACT_ADDRESS)
 
   useEffect(() => {
     const init = async () => {
       const NFT = await NFTContract.getNFT(tokenId)
+      setNFT(NFT)
 
       fetch(NFT[1])
         .then(res => res.json())
@@ -36,7 +39,7 @@ export default function Card_Research({ tokenId }) {
         alt="NFT"
         height="auto"
         image={data && data.image}
-        sx={{ borderRadius: "10px" }}
+        sx={{ borderRadius: "10px", height: '250px' }}
       />
       <Stack sx={{ p: 3 }}>
         <Link href={`/item-details/${tokenId}`}>
@@ -49,7 +52,7 @@ export default function Card_Research({ tokenId }) {
         </Typography>
         <Stack direction={'row'} justifyContent="space-between">
           <Typography sx={{ color: "#1066e7" }}>
-            {data && data.price}
+            {NFT && formatBigNumber(NFT[2])}
             {data && data.symbol}
           </Typography>
           <Typography sx={{}}>1 out of 10</Typography>

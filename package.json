@@ -1,7 +1,7 @@
 {
-  "name": "dicedgg-server",
+  "name": "zedxion-nft",
   "version": "1.0.0",
-  "description": "Crypto Gambling Website",
+  "description": "Zedxion NFT Marketplace",
   "main": "server.js",
   "engines": {
     "node": "16.11.0",

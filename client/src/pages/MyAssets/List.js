@@ -43,10 +43,12 @@ export default function List() {
 
   useEffect(() => {
     const init = async () => {
-      const tokenIds = await NFTContract.tokensOfOwner(account)
-      console.log("tokenIds=>", tokenIds)
+      if (account) {
+        const tokenIds = await NFTContract.tokensOfOwner(account)
+        console.log("tokenIds=>", tokenIds)
 
-      setNFTs(tokenIds)
+        setNFTs(tokenIds)
+      }
     }
 
     init()
@@ -111,7 +113,7 @@ export default function List() {
                     </Grid>
                   )) :
                   <Stack justifyContent="center">
-                    <Typography variant="h2" sx={{textAlign: 'center'}}>
+                    <Typography variant="h2" sx={{ textAlign: 'center' }}>
                       You have no NFT in your account.
                     </Typography>
                   </Stack>

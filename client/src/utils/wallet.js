@@ -5,7 +5,7 @@ export const BASE_BSC_SCAN_URLS = {
   Testnet: 'https://testnet.bscscan.com',
 }
 
-export const BASE_BSC_SCAN_URL = BASE_BSC_SCAN_URLS['Testnet']
+export const BASE_BSC_SCAN_URL = BASE_BSC_SCAN_URLS['Mainnet']
 
 export const registerToken = async (
   tokenAddress,
@@ -32,14 +32,14 @@ export const registerToken = async (
 export const setupNetwork = async () => {
   const provider = window.ethereum
   if (provider) {
-    const chainId = parseInt(process.env.REACT_APP_CHAIN_ID_TEST, 10)
+    const chainId = parseInt(process.env.REACT_APP_CHAIN_ID_Main, 10)
     try {
       await provider.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: 'Binance Smart Chain TestNet',
+            chainName: 'Binance Smart Chain Main Net',
             nativeCurrency: {
               name: 'BNB',
               symbol: 'bnb',

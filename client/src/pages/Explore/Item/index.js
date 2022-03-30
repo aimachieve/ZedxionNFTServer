@@ -48,6 +48,7 @@ export default function BidPage() {
   const tokenId = pathArray[pathArray.length - 1]
 
   const [data, setData] = useState(null)
+  const [NFT, setNFT] = useState(null)
   const [value, setValue] = React.useState('1');
   const [auctionDay, setAuctionDay] = useState(null)
   const [bids, setBids] = useState(null)
@@ -64,6 +65,7 @@ export default function BidPage() {
   useEffect(() => {
     const init = async () => {
       const NFT = await NFTContract.getNFT(tokenId)
+      setNFT(NFT)
 
       fetch(NFT[1])
         .then(res => res.json())
@@ -76,11 +78,13 @@ export default function BidPage() {
         })
 
       const bids = await NFTContract.getBid(tokenId)
+      console.log("NFTCONtract=>", NFTContract)
       console.log("bids=>", bids)
       setBids(bids)
 
-      setAuctionDay(NFT[5])
-      console.log(NFT[5])
+      setAuctionDay(NFT[4])
+      console.log("nft=>", NFT)
+      console.log("auctionDay=>", NFT[4])
     }
 
     init()
@@ -179,7 +183,7 @@ export default function BidPage() {
 
   const info = {
     id: tokenId,
-    price: data?.price,
+    price: NFT && formatBigNumber(NFT[2]),
     symbol: data?.symbol
   }
 
@@ -205,29 +209,29 @@ export default function BidPage() {
                 {/* Bid content */}
                 <Stack direction={'row'} justifyContent={'space-between'}>
                   {
-                    data && data.saleMethod === 'fixed' ?
+                    NFT && NFT[3] === 'fixed' ?
                       <Typography variant="h5">
-                        {data?.price + data?.symbol}
+                        {NFT && formatBigNumber(NFT[2]) + data?.symbol}
                       </Typography> :
                       <Stack spacing={1}>
                         <Typography variant="h5"> Current Bid </Typography>
                         <Typography variant="h4">
-                          {data?.price + data?.symbol}
+                          {NFT && formatBigNumber(NFT[2]) + data?.symbol}
                         </Typography>
                       </Stack>
                   }
-                  <Stack spacing={1} sx={{ display: data?.saleMethod === 'fixed' ? 'none' : '' }}>
+                  <Stack spacing={1} sx={{ display: NFT && NFT[3] === 'fixed' ? 'none' : '' }}>
                     <Typography variant="h5"> Auction Ending In </Typography>
                     {
                       auctionDay ?
-                        <CountDown day={auctionDay} /> :
+                        <CountDown day={auctionDay} tokenId={tokenId} /> :
                         ""
                     }
                   </Stack>
                 </Stack>
                 {/* Button Group */}
                 <Stack direction={'row'} spacing={2}>
-                  <Stack style={{ display: data?.saleMethod === 'fixed' ? 'none' : '' }}>
+                  <Stack style={{ display: NFT && NFT[3] === 'fixed' ? 'none' : '' }}>
                     {
                       auctionDay && new Date(auctionDay) > new Date() ?
                         <BidButton tokenId={tokenId} info={info} /> :
@@ -250,8 +254,8 @@ export default function BidPage() {
                           color="primary"
                           variant="contained"
                           startIcon={<ShoppingCartIcon />}
-                          onClick={() => { buyNFT(tokenId, data?.price) }}
-                          disabled={data?.saleMethod === 'auction'}
+                          onClick={() => { buyNFT(tokenId, NFT && formatBigNumber(NFT[2])) }}
+                          disabled={NFT && NFT[3] === 'auction'}
                         >
                           Buy Now
                         </Button>
@@ -293,7 +297,7 @@ export default function BidPage() {
                     {/* Bids Tab */}
                     <TabPanel value="2">
                       {
-                        data?.saleMethod === 'auction' ?
+                        NFT && NFT[3] === 'auction' ?
                           bids ?
                             bids.map((bid, index) => (
                               <Stack direction="row" spacing={2} mt={2} key={index}>

@@ -20,7 +20,7 @@ const useActiveWeb3React = () => {
 
   return {
     library: provider,
-    chainId: chainId ?? parseInt(process.env.REACT_APP_CHAIN_ID_TEST, 10),
+    chainId: chainId ?? parseInt(process.env.REACT_APP_CHAIN_ID_MAIN, 10),
     ...web3React,
   };
 };

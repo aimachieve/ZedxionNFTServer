@@ -171,7 +171,6 @@ export default function CustomizedDialogs({ tokenId, info }) {
     } else {
       try {
         await NFTContract.placeBid(tokenId, account, Number(price), String(new Date()))
-
         enqueueSnackbar("Bid successfully done!", {
           variant: "success",
         });
@@ -184,6 +183,10 @@ export default function CustomizedDialogs({ tokenId, info }) {
           variant: "info"
         })
       }
+
+      const bids = await NFTContract.getBid(tokenId)
+      console.log("after bid bids=>", bids)
+      setBids(bids)
     }
   }
 

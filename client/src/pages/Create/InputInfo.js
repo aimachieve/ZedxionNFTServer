@@ -193,6 +193,7 @@ export default function InputInfo() {
         metadataUrl,
         Number(metaData.price),
         Number(metaData.royalties),
+        metaData.sale,
         metaData.saleMethod,
         String(date)
       )
@@ -409,16 +410,16 @@ export default function InputInfo() {
                           onChange={onMetaDataChange}
                           sx={{ color: 'white', width: '50%' }}
                         >
-                          <MenuItem value="BNB">
+                          {/* <MenuItem value="BNB" disabled={metaData.network === 'bsc'}>
                             <Typography>BNB</Typography>
-                          </MenuItem>
-                          <MenuItem value="USDT">
+                          </MenuItem> */}
+                          <MenuItem value="USDT" disabled={metaData.network === 'bsc'}>
                             <Typography>USDT</Typography>
                           </MenuItem>
-                          <MenuItem value="BUSD">
+                          <MenuItem value="BUSD" disabled={metaData.network === 'eth'}>
                             <Typography>BUSD</Typography>
                           </MenuItem>
-                          <MenuItem value="ZEDXION">
+                          <MenuItem value="ZEDXION" disabled={true}>
                             <Typography>ZEDXION</Typography>
                           </MenuItem>
                         </TextField>
